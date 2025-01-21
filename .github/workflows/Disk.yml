@@ -1,0 +1,23 @@
+name: EC2 Disk Usage
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check-disk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Disk Usage
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "=== Disk Usage Report ===" > disk_report.txt
+            date >> disk_report.txt
+            echo -e "\nDisk Usage:" >> disk_report.txt
+            df -h >> disk_report.txt
+            echo -e "\nLargest Directories:" >> disk_report.txt
+            du -h /home/ubuntu | sort -rh | head -n5 >> disk_report.txt
+            cat disk_report.txt
