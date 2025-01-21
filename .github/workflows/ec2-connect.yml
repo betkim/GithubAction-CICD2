@@ -18,4 +18,10 @@ jobs:
             pwd
             echo "Hello from EC2!"
             echo "Hello fabtastic world!" > lion.txt
+            echo "=== System Information ==="
+            uname -a
+            echo -e "\n=== Distribution Info ==="
+            lsb_release -a
+            echo -e "\n=== CPU Info ==="
+            cat /proc/cpuinfo | grep "model name" | head -n1
 
